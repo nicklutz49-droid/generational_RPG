@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore
+        run: dotnet restore GenerationalRPG.sln
+
+      - name: Build (warnings as errors)
+        run: dotnet build GenerationalRPG.sln --no-restore --configuration Debug -warnaserror
+
+      - name: Test
+        run: dotnet test GenerationalRPG.sln --no-build --configuration Debug

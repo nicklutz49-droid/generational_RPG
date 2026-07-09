@@ -1,0 +1,13 @@
+<Project Sdk="Godot.NET.Sdk/4.7.0">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../Sim.World/Sim.World.csproj" />
+    <ProjectReference Include="../Sim.Tactics/Sim.Tactics.csproj" />
+  </ItemGroup>
+
+</Project>

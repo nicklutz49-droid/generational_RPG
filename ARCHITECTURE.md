@@ -7,7 +7,9 @@
 | Godot (.NET build) | **4.7-stable** (released 2026-06-18) | ✅ pinned (developer, 2026-07-09) |
 | Godot.NET.Sdk (NuGet) | 4.7.0 | ✅ pinned |
 | .NET target framework | `net8.0` (.NET 8 is the minimum since Godot 4.4; SDK 8.0+ required) | ✅ pinned |
-| xUnit | latest stable at scaffold time — exact version recorded here when the scaffold merges | ⚠ pin pending |
+| xUnit | 2.9.3 (+ xunit.runner.visualstudio 3.1.5, Microsoft.NET.Test.Sdk 18.7.0) | ✅ pinned (scaffold, 2026-07-09) |
+
+Known limitation: `GenerationalRPG.sln` uses standard `Debug|Release` configurations, not the `Debug/ExportDebug/ExportRelease` scheme the Godot editor generates for its own solutions. `dotnet build`/`dotnet test` are unaffected (verified); the editor's Build button / `--export` flow is unvalidated — revisit if export tooling is ever driven from this solution.
 
 API verification (`ORCHESTRATOR.md` §11) is against the Godot 4.7 docs: https://docs.godotengine.org/en/4.7/ — never against recalled signatures. If the developer later updates to a 4.7.x patch release, update this table; minor patches do not need an ADR, version jumps (4.8+) do.
 

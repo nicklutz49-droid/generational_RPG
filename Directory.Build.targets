@@ -1,0 +1,76 @@
+<Project>
+
+  <!--
+    Sim-purity build check (ARCHITECTURE.md, ORCHESTRATOR.md §3):
+    Sim.* assemblies must have zero Godot references. This is enforced here,
+    in MSBuild, so it runs on every build everywhere (not only in CI).
+
+    Scope: any project whose name starts with "Sim." (Sim.World, Sim.Tactics,
+    Sim.Tests). The Game project does not match and is unaffected.
+  -->
+
+  <UsingTask
+      TaskName="CheckSimPuritySource"
+      TaskFactory="RoslynCodeTaskFactory"
+      AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <ProjectName ParameterType="System.String" Required="true" />
+      <SourceFiles ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System.IO" />
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[
+        var usingGodot = new Regex(@"(?m)^\s*using\s+Godot(\s*\.[A-Za-z0-9_.]*)?\s*;", RegexOptions.Compiled);
+        var godotQualified = new Regex(@"\bGodot\s*\.\s*[A-Za-z_]", RegexOptions.Compiled);
+
+        foreach (var item in SourceFiles)
+        {
+            string path = item.GetMetadata("FullPath");
+            if (string.IsNullOrEmpty(path) || !File.Exists(path))
+            {
+                continue;
+            }
+
+            string text = File.ReadAllText(path);
+            if (usingGodot.IsMatch(text) || godotQualified.IsMatch(text))
+            {
+                Log.LogError(
+                    subcategory: null,
+                    errorCode: "SIMPURITY001",
+                    helpKeyword: null,
+                    file: path,
+                    lineNumber: 0,
+                    columnNumber: 0,
+                    endLineNumber: 0,
+                    endColumnNumber: 0,
+                    message: "Sim-purity violation: '" + path + "' in project '" + ProjectName +
+                        "' contains a 'using Godot' directive or a 'Godot.'-qualified reference. " +
+                        "Sim.* assemblies must have zero Godot references (ARCHITECTURE.md).");
+            }
+        }
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
+
+  <Target Name="SimPurityCheckSource"
+          BeforeTargets="CoreCompile"
+          Condition="$(MSBuildProjectName.StartsWith('Sim.'))">
+    <CheckSimPuritySource ProjectName="$(MSBuildProjectName)" SourceFiles="@(Compile)" />
+  </Target>
+
+  <Target Name="SimPurityCheckReferences"
+          AfterTargets="ResolveAssemblyReferences"
+          Condition="$(MSBuildProjectName.StartsWith('Sim.'))">
+    <ItemGroup>
+      <_GodotAssemblyRef Include="@(ReferencePath)"
+                          Condition="$([System.String]::Copy('%(ReferencePath.Filename)').Contains('Godot'))" />
+    </ItemGroup>
+    <Error Condition="'@(_GodotAssemblyRef)' != ''"
+           Code="SIMPURITY002"
+           Text="Sim-purity violation: project '$(MSBuildProjectName)' resolved a reference to a Godot assembly ('@(_GodotAssemblyRef)'). Sim.* projects must never reference GodotSharp or the Godot.NET.Sdk (ARCHITECTURE.md)." />
+  </Target>
+
+</Project>
