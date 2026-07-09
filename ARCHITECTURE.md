@@ -4,11 +4,12 @@
 
 | Component | Version | Status |
 |---|---|---|
-| Godot (.NET build) | **TBD — developer must pin before the first code commit** | ⚠ unpinned |
-| .NET SDK | TBD (whatever the pinned Godot version requires) | ⚠ unpinned |
-| xUnit | TBD (pin on first test project) | ⚠ unpinned |
+| Godot (.NET build) | **4.7-stable** (released 2026-06-18) | ✅ pinned (developer, 2026-07-09) |
+| Godot.NET.Sdk (NuGet) | 4.7.0 | ✅ pinned |
+| .NET target framework | `net8.0` (.NET 8 is the minimum since Godot 4.4; SDK 8.0+ required) | ✅ pinned |
+| xUnit | latest stable at scaffold time — exact version recorded here when the scaffold merges | ⚠ pin pending |
 
-No code may be committed while the engine version is unpinned (`ORCHESTRATOR.md` §11 depends on it: API calls are verified against the pinned version's docs, not recall).
+API verification (`ORCHESTRATOR.md` §11) is against the Godot 4.7 docs: https://docs.godotengine.org/en/4.7/ — never against recalled signatures. If the developer later updates to a 4.7.x patch release, update this table; minor patches do not need an ADR, version jumps (4.8+) do.
 
 ## Assembly layout
 
