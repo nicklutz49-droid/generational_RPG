@@ -58,7 +58,7 @@ Deferred ideas. Developer's original wording is preserved verbatim; the orchestr
 - **Deferred:** 2026-07-09
 - **Developer's wording:** "Each character will have an age and can grow old and die eventually."
 - **Cost (pessimistic):** 5–8 dev-days
-- **Notes:** Time-model direction set by ADR-0003: ~300 in-game years ≈ ~50 real hours; time passes mainly during travel and deliberate waiting in town (which also wears off injuries/exhaustion). Still open: time cost of dungeons. §5 already directs stubbing age as a data field in M0.
+- **Notes:** Time-model direction set by ADR-0003: ~300 in-game years ≈ ~50 real hours; time passes mainly during travel and deliberate waiting in town (which also wears off injuries/exhaustion). Dungeon time is effectively paused (ADR-0004) — the clock only advances on the world map. §5 already directs stubbing age as a data field in M0.
 
 ## B-009 — Inheritance / heir system
 

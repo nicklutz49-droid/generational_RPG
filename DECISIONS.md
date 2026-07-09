@@ -4,6 +4,17 @@ Dated ADRs, newest first. Every architectural choice, §2 change, developer over
 
 ---
 
+## ADR-0004 — Dungeon time is effectively paused (2026-07-09)
+
+**Decision (developer-stated):** the in-game clock does not advance inside dungeons. RP rationale: world-map travel is measured in days, and a dungeon run is assumed to take less than a day, so it rounds to zero. This closes ADR-0003's open time-model item.
+
+**Consequences:**
+- Aging, wages, and the economy tick only advance on the world map. The world sim can be fully suspended during dungeon/combat scenes — dungeon and combat code paths never need a background economy tick, which simplifies both determinism testing and performance.
+- Revival-window pressure (B-013) comes entirely from travel back to civilization, never from time spent crawling.
+- In-combat bleed-out (ADR-0003) is measured in combat rounds, not world time — unaffected.
+
+**Rejected alternative:** fractional day costs per dungeon run — at a 300-year playthrough scale the pressure is negligible, so it would be bookkeeping without gameplay.
+
 ## ADR-0003 — Design answers: time model, death & revival, classes, turn-based combat, dynasty scaling (2026-07-09)
 
 **Context:** Developer answered the five open questions from ADR-0002. All decisions below are developer-stated.
