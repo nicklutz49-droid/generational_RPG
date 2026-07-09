@@ -13,6 +13,6 @@ Ordered per the build-order constraint (`ORCHESTRATOR.md` §6): the snap-to-grid
 3. Grid-native dungeon geometry, collision, movement, pathfinding
 4. One hand-authored dungeon
 5. Free-roam exploration
-6. Tactical combat with hardcoded fixed party
+6. Tactical combat with hardcoded fixed party (engine models basic actions + 4 equipped ability slots from the start, ability definitions data-driven — ADR-0002)
 7. First enemy archetype (a second is out of scope until this one passes review)
 8. Per-feature juice pass (gated per `ORCHESTRATOR.md` §10, not a phase)
