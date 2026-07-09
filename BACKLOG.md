@@ -44,7 +44,7 @@ Deferred ideas. Developer's original wording is preserved verbatim; the orchestr
 - **Deferred:** 2026-07-09
 - **Developer's wording:** "There will be a large variety of classes to allow for creativity and experimentation."
 - **Cost (pessimistic):** 15–25 dev-days for the framework; each class after that is content, ~1–2 days apiece
-- **Notes:** "Large variety" is a content multiplier — classes and abilities must be data definitions loaded by `Sim.Tactics`, never per-class code. The M0 combat engine spec will require data-driven ability definitions from the start so this stays content work.
+- **Notes:** "Large variety" is a content multiplier — classes and abilities must be data definitions loaded by `Sim.Tactics`, never per-class code. The M0 combat engine spec will require data-driven ability definitions from the start so this stays content work. Design settled by ADR-0003: 1 class per character, switchable, with a progression tree of classes that unlock as prerequisites are leveled — the tree structure (prereq graph) should be part of the class data format from day one.
 
 ## B-007 — World-map ability loadout swapping (UI)
 
@@ -58,14 +58,14 @@ Deferred ideas. Developer's original wording is preserved verbatim; the orchestr
 - **Deferred:** 2026-07-09
 - **Developer's wording:** "Each character will have an age and can grow old and die eventually."
 - **Cost (pessimistic):** 5–8 dev-days
-- **Notes:** Blocked on a time-model ADR (game-days per real-minute, whether time passes in dungeons, pause semantics) — every aging/wage/economy rate hangs off that one decision. §5 already directs stubbing age as a data field in M0.
+- **Notes:** Time-model direction set by ADR-0003: ~300 in-game years ≈ ~50 real hours; time passes mainly during travel and deliberate waiting in town (which also wears off injuries/exhaustion). Still open: time cost of dungeons. §5 already directs stubbing age as a data field in M0.
 
 ## B-009 — Inheritance / heir system
 
 - **Deferred:** 2026-07-09
 - **Developer's wording:** "The player's initial character will eventually die in a playthrough, whether through age or combat and there will be an inheritance system to allow them to keep playing. The player can choose a member of the guild to inherit the guild. This heir gains passive bonuses to leveling skills the current owner of the guild is good with."
 - **Cost (pessimistic):** 8–12 dev-days
-- **Notes:** Promoted to a §2 pillar (ADR-0002) — it's the game's namesake. Open design questions: what happens if the leader dies with no heir designated; whether heir bonuses compound across generations (snowball risk).
+- **Notes:** Promoted to a §2 pillar (ADR-0002) — it's the game's namesake. Design settled by ADR-0003: there is always an heir (defaulted, changeable anytime); game over only on total loss (e.g., full deployed party wiped in a dungeon); dynasties getting objectively stronger across generations is intended — compounding bonuses are a tuning problem, not a design flaw.
 
 ## B-010 — Leveled encounters + non-linear lifetime leveling
 
@@ -87,3 +87,10 @@ Deferred ideas. Developer's original wording is preserved verbatim; the orchestr
 - **Developer's wording:** "Dungeons can range from small caves, abandoned forts, deep labyrinths, huge automaton factories or pocket dimensions of extraplanar creatures like demons, devils, angels, abominations, or even eldritch horrors."
 - **Cost (pessimistic):** 3–8 dev-days per archetype (tileset, hand-authored layouts, enemy roster, one gimmick each)
 - **Notes:** §5 bans procgen and M0 proves exactly one hand-authored dungeon first. Ordering suggestion when scheduled: cheapest-to-read archetypes first (cave, fort), exotic ones (pocket dimensions) after the dungeon toolchain is proven.
+
+## B-013 — Revival services (temple, mage casting, revival window)
+
+- **Deferred:** 2026-07-09
+- **Developer's wording:** "death is permanent but characters have a limited window of time be revived using a large city's temple services for a cost or a sufficiently highly leveled mage with the right spell and the right material that gets consumed."
+- **Cost (pessimistic):** 5–8 dev-days
+- **Notes:** The in-combat half of this rule (0 HP = knocked out; death if not healed up before combat drags on too long) is **not** deferred — it's an M0 combat-engine rule per ADR-0003. This entry covers only the post-combat services: the revival time window, temple pricing, the revival spell + consumed material, and how a dead character travels with the party during the window. Ties into the economy (temple costs, rare materials) and the class system (which classes get the spell).

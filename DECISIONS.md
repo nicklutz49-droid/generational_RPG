@@ -4,6 +4,26 @@ Dated ADRs, newest first. Every architectural choice, §2 change, developer over
 
 ---
 
+## ADR-0003 — Design answers: time model, death & revival, classes, turn-based combat, dynasty scaling (2026-07-09)
+
+**Context:** Developer answered the five open questions from ADR-0002. All decisions below are developer-stated.
+
+**Time model (direction, not a hard number):** a full ~300-in-game-year playthrough targets ~50 real hours. Time passes mainly during travel and when the player deliberately waits in town (e.g., to let injuries/exhaustion wear off). Not yet decided: how much time dungeons consume. Tuning constants stay out of `ARCHITECTURE.md` until systems exist to tune.
+
+**Heir & game over:** there is always an heir — one is defaulted and can be changed at any time. Game over only occurs on total loss (e.g., the entire deployed party dies at once in a dungeon).
+
+**Death & revival:** at 0 HP in combat a character is knocked out, not dead (D&D-style). If not brought back up by healing, or if combat drags on too long after the knockdown, they die. Death is permanent, except for a limited time window in which a character can be revived — via a large city's temple services for a cost, or by a sufficiently high-level mage with the right spell and a consumed material.
+- **M0 consequence:** the knockout state and the died-in-combat transition are core combat-engine rules and are modeled from M0. The exact "combat doesn't end fast enough" mechanic (bleed-out counter, death saves, round limit) is a design knob to fix in the combat-engine spec.
+- Revival services (temples, mage casting, revival window duration) are post-M0 → `BACKLOG.md` B-013.
+
+**Classes:** each character has exactly 1 class at a time, switchable. Classes sit in a progression tree and unlock as their prerequisites are leveled. (Updates B-006.)
+
+**Combat form:** grid tactical combat is turn-based. Confirmed; §2 amended.
+
+**Dynasty scaling:** a dynasty getting objectively stronger over generations is the intent. Heir bonuses may compound. (Updates B-009; balance work is tuning, not redesign.)
+
+**Rejected alternatives:** hard-coding a real-time↔game-time constant now (premature — no system consumes it yet); instant permanent death at 0 HP (undermines the revival economy and party-attrition strategy layer); multiclassing (replaced by the switchable single class + prerequisite tree, which serves the same experimentation goal with clearer identity).
+
 ## ADR-0002 — Game pillars recorded as fixed facts; 4-slot ability loadout modeled from M0 (2026-07-09)
 
 **Context:** The developer stated the game vision in full (verbatim capture in `BACKLOG.md` B-001…B-012). Most of it is post-M0 content, but three things are identity-level facts and one is an M0 engine constraint.

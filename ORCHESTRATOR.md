@@ -25,7 +25,8 @@ Do not relitigate these. Changes require developer approval recorded as an ADR.
 - World map: pausable real-time sim. Settlements, resources, economy. Goods movement is simulated backend-only; NPCs on the map visualize goods flow but are not the transport mechanism. **No enemy armies, no war layer.** Sandbox feel, not campaign war.
 - Guild pillar (post-M0): the player is a single character leading a failing guild. Core loop: restore and sustain it — hire, equip, and level members; pay wages; budget travel supplies. The player character can fight but never has to.
 - Generational pillar (post-M0): every character, including the player's, ages and dies. Play continues through a designated heir who inherits the guild with passive leveling bonuses tied to the late leader's strengths.
-- Dungeons: free-roam real-time exploration; on encounter, snap to grid tactical **in place**, no scene load.
+- Dungeons: free-roam real-time exploration; on encounter, snap to **turn-based** grid tactical **in place**, no scene load.
+- Combat defeat: at 0 HP a character is knocked out, not dead; they die only if not healed back up before combat drags on too long after the knockdown. Death is permanent apart from a limited revival window (temple services or high-level mage + consumed material — post-M0). The knockout→death rule is modeled in the combat engine from M0 (ADR-0003).
 - Party: 6–8 deployed, larger reserve roster, with healing/exhaustion/attrition (post-M0).
 - Combat loadout: beyond basic actions (attack, use item, move), each character has exactly 4 equipped ability slots — swappable on the world map, locked once inside a dungeon or combat. Modeled in the combat engine from M0 (ADR-0002); ability definitions are data-driven.
 - Polished UI and game feel are requirements, enforced per-feature via §10, not a later phase.
